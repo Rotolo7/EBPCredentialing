@@ -1,0 +1,25 @@
+import pandas as pd
+
+# Step 1: Import the necessary libraries
+
+# Step 2: Read the Excel file into a Pandas DataFrame
+df = pd.read_excel('Original.xlsx')
+
+# Step 3: Define the clinician names
+names = ['Ana Reyes', 'Danielle DiLauro', 'Victoria Ortiz']
+
+# Step 4: Define the discharge reasons
+discharge_reason = [
+    'Successfully completed selected EBP Model requirements – no more treatment needed',
+    'Successfully completed selected EBP Model requirements – continue with other treatment'
+]
+
+# Step 5: Remove rows based on the conditions
+df = df[~(
+    df['Clinician'].isin(names) &
+    (df['Status'] != 'Closed') &
+    ~(df['discharge_reason'].isin(discharge_reason))
+)]
+
+# Step 6: Save the cleaned DataFrame back to an Excel file
+df.to_excel('cleaned_file.xlsx', index=False)
