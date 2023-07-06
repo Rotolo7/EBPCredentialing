@@ -1,6 +1,6 @@
-import pandas as pd
 
 # Step 1: Import the necessary libraries
+import pandas as pd
 
 # Step 2: Read the Excel file into a Pandas DataFrame
 df = pd.read_excel('Original.xlsx')
