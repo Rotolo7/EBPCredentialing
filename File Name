@@ -1,0 +1,43 @@
+import pandas as pd
+
+def collect_clinicians():
+    clinicians = []
+
+    while True:
+        name = input("Enter the name of the clinician (or 'N' to exit): ")
+        
+        if name == "N":
+            break
+        
+        clinicians.append(name)
+
+    print("Clinicians entered:", clinicians)
+
+def get_file_name():
+    filename = input("Enter the name of the file (e.g., data.xlsx): ")
+    return filename
+
+# Step 1: Call the function to get the file name
+file_name = get_file_name()
+
+# Step 2: Read the Excel file into a Pandas DataFrame
+df = pd.read_excel(file_name)
+
+# Step 3: Call the function to collect clinician names
+collect_clinicians()
+
+# Step 4: Define the discharge reasons
+discharge_reason = [
+    'Successfully completed selected EBP Model requirements – no more treatment needed',
+    'Successfully completed selected EBP Model requirements – continue with other treatment'
+]
+
+# Step 5: Remove rows based on the conditions
+df = df[~(
+    df['Clinician'].isin(clinicians) &
+    (df['Status'] != 'Closed') &
+    ~(df['discharge_reason'].isin(discharge_reason))
+)]
+
+# Step 6: Save the cleaned DataFrame back to an Excel file
+df.to_excel('cleaned_file.xlsx', index=False)
